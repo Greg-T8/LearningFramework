@@ -15,11 +15,12 @@ jobs:
         with: {args: "--no-progress --verbose **/*.md"}
 
   powershell:
-    if: ${{ always() && hashFiles('**/*.ps1') != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/check  v4
-      - shell: pwsh
+      - name: PSScriptAnalyzer
+        if: hashFiles('**/*.ps1') != ''
+        shell: pwsh
         run: |
           Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
           Invoke-ScriptAnalyzer -Path . -Recurse -ReportSummary
