@@ -1,72 +1,60 @@
-
-
----
-
-
-### `.github/workflows/ci.yml`
-```yaml
 name: ci
 on:
-push: {branches: ["**"]}
-pull_request:
-schedule: [{cron: "0 12 * * 1-5"}] # weekday link check
-
+  push: {branches: ["**"]}
+  pull_request:
+  schedule: [{cron: "0 12 * * 1-5"}]  # weekday link check
 
 jobs:
-markdown:
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- uses: DavidAnson/markdownlint-cli2-action@v16
-with: {globs: "**/*.md"}
-- uses: lycheeverse/lychee-action@v2
-with: {args: "--no-progress --verbose **/*.md"}
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with: {globs: "**/*.md"}
+      - uses: lycheeverse/lychee-action@v2
+        with: {args: "--no-progress --verbose **/*.md"}
 
+  powershell:
+    if: hashFiles('**/*.ps1') != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: pwsh
+        run: |
+          Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
+          Invoke-ScriptAnalyzer -Path . -Recurse -ReportSummary
 
-powershell:
-if: hashFiles('**/*.ps1') != ''
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- shell: pwsh
-run: |
-Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
-Invoke-ScriptAnalyzer -Path . -Recurse -ReportSummary
+  terraform:
+    if: hashFiles('**/*.tf') != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform fmt -check
+      - run: terraform init -backend=false
+      - run: terraform validate
 
+  bicep:
+    if: hashFiles('**/*.bicep') != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Bicep CLI
+        run: |
+          curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x bicep && sudo mv bicep /usr/local/bin/bicep
+      - name: Build all .bicep
+        run: |
+          for f in $(git ls-files '*.bicep'); do
+            echo "Building $f"; bicep build "$f";
+          done
 
-terraform:
-if: hashFiles('**/*.tf') != ''
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- uses: hashicorp/setup-terraform@v3
-- run: terraform fmt -check
-- run: terraform init -backend=false
-- run: terraform validate
-
-
-bicep:
-if: hashFiles('**/*.bicep') != ''
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- name: Install Bicep CLI
-run: |
-curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
-chmod +x bicep && sudo mv bicep /usr/local/bin/bicep
-- name: Build all .bicep
-run: |
-for f in $(git ls-files '*.bicep'); do
-echo "Building $f"; bicep build "$f";
-done
-
-
-k8s-yaml:
-if: hashFiles('**/*.yaml','**/*.yml') != ''
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- name: Install yamllint
-run: pipx install yamllint || pip install --user yamllint
-- name: Lint YAML
-run: ~/.local/bin/yamllint -s . || yamllint -s .
+  k8s-yaml:
+    if: hashFiles('**/*.yaml','**/*.yml') != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install yamllint
+        run: pipx install yamllint || pip install --user yamllint
+      - name: Lint YAML
+        run: ~/.local/bin/yamllint -s . || yamllint -s .
