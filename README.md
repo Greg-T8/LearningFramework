@@ -18,7 +18,8 @@ This repo shows how to run a 2‑hour **Build → Drill → Ship** session with 
 
 - **L4 — Complete**: deploy ✓ check ✓ cleanup ✓
 - **L3 — Verified core**: main path works; cleanup later
-- **L2 — Built & planned**: scripts lint/compile; dry‑run/plan captured; **verify plan written**
+- **L2 — Built & planned**: scripts lint/compile; dry‑run/plan captured;
+  **verify plan written**
 - **L1 — Framed**: scenario + acceptance criteria; command list; repo scaffolded
 
 ### Session scaffold
