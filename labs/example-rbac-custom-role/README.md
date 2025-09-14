@@ -4,7 +4,8 @@
 
 Create a custom RBAC role with narrow read permissions, assign it to a managed identity (MI), and verify access via a simple command. (Example only — fill real actions for your case.)
 
-**Acceptance criteria**
+**Acceptance criteria:**
+
 - Custom role definition created at subscription scope
 - Role assignment to MI succeeds
 - Verify command returns expected metadata (or fails as expected for denied ops)
