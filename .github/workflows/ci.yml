@@ -12,7 +12,7 @@ jobs:
       - uses: DavidAnson/markdownlint-cli2-action@v16
         with: { globs: "**/*.md" }
       - uses: lycheeverse/lychee-action@v2
-        with: { args: "--no-progress --verbose --fail-if-empty=false **/*.md " }
+        with: { args: "--no-progress --verbose --failifempty=false **/*.md " }
 
   powershell:
     runs-on: ubuntu-latest
