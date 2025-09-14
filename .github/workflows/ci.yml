@@ -17,7 +17,7 @@ jobs:
   powershell:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/check  v4
+      - uses: actions/checkout@v4
       - name: PSScriptAnalyzer
         if: hashFiles('**/*.ps1') != ''
         shell: pwsh
