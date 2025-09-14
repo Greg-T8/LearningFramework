@@ -1,0 +1,32 @@
+name: Blocked Lab
+description: Capture repro details for a blocked micro-lab
+title: "Blocked: <lab-name> – <symptom>"
+labels: [blocked]
+body:
+- type: textarea
+id: state
+attributes:
+label: Current State
+description: Where I’m stuck; what I expected vs saw
+placeholder: "Assignment failed with Insufficient privileges..."
+- type: textarea
+id: evidence
+attributes:
+label: Evidence
+description: Exact command(s), logs, screenshots, timestamps
+placeholder: "az role assignment create ...\nError: ..."
+- type: textarea
+id: hypothesis
+attributes:
+label: Hypothesis
+description: Why this might be happening
+- type: textarea
+id: next
+attributes:
+label: Next test I’ll try
+placeholder: "Retry with --assignee-object-id of MI principal; check graph perms"
+- type: textarea
+id: repro
+attributes:
+label: Minimal repro (3 steps)
+placeholder: "1) Create A\n2) Assign B\n3) Call C"

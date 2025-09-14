@@ -1,0 +1,19 @@
+name: Daily Session
+description: Track a 2-hour study session
+title: "Session: {{date}} – {{topic}}"
+labels: [session, daily]
+body:
+- type: input
+id: outcome
+attributes: {label: Tiny outcome}
+- type: checkboxes
+id: blocks
+attributes:
+label: Blocks
+options:
+- label: Block A — Primary (80m)
+- label: Block B — Sprinkle (35m)
+- label: Ship (5m) + Drill (10m)
+- type: textarea
+id: notes
+attributes: {label: Notes / What broke / Fix}
