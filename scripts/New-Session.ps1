@@ -1,10 +1,10 @@
 param(
-[Parameter(Mandatory=$true)][string]$Topic,
-[string]$Outcome = "Tiny outcome"
+    [Parameter(Mandatory=$true)][string]$Topic,
+    [string]$Outcome = 'Tiny outcome'
 )
 $Date = (Get-Date).ToString('yyyy-MM-dd')
 $Slug = "$Date-$($Topic -replace '\s+','-').ToLower()"
-$Dir = Join-Path "sessions" $Slug
+$Dir = Join-Path 'sessions' $Slug
 New-Item -ItemType Directory -Path $Dir -Force | Out-Null
 @"
 # $Date – $Outcome
@@ -20,7 +20,7 @@ New-Item -ItemType Directory -Path $Dir -Force | Out-Null
 -
 ## Next
 -
-"@ | Set-Content -Path (Join-Path $Dir "README.md")
+"@ | Set-Content -Path (Join-Path $Dir 'README.md')
 if (-not (git rev-parse --is-inside-work-tree 2>$null)) { git init | Out-Null }
 try { git checkout -b "session/$Slug" } catch { git checkout -b "session/$Slug" }
 git add .
