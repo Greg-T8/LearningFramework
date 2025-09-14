@@ -1,8 +1,8 @@
 name: ci
 on:
-  push: {branches: ["**"]}
+  push: { branches: ["**"] }
   pull_request:
-  schedule: [{cron: "0 12 * * 1-5"}]  # weekday link check
+  schedule: [{ cron: "0 12 * * 1-5" }] # weekday link check
 
 jobs:
   markdown:
@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DavidAnson/markdownlint-cli2-action@v16
-        with: {globs: "**/*.md"}
+        with: { globs: "**/*.md" }
       - uses: lycheeverse/lychee-action@v2
-        with: {args: "--no-progress --verbose **/*.md"}
+        with: { args: "--no-progress --verbose **/*.md" }
 
   powershell:
     runs-on: ubuntu-latest
