@@ -1,6 +1,7 @@
 # LearningTest
 
-This repo shows how to run a 2‑hour **Build → Drill → Ship** session with the **Fail‑Forward** procedure. Use it as a template for other learning repos.
+This repo shows how to run a 2‑hour **Build → Drill → Ship** session with the
+**Fail‑Forward** procedure. Use it as a template for other learning repos.
 
 ## Daily flow (2h)
 
