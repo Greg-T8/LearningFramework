@@ -19,7 +19,7 @@
 
 ## What broke / How I fixed it
 
-- Error: az role definition create succeeded; assignment cmd not authored yet
+- Error: az role definition create succeeded; assignment cmd not authored yet abc
 - Fix (tomorrow): add assignment step + choose correct DataActions
 
 ## Current State
