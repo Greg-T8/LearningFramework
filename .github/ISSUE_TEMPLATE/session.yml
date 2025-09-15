@@ -14,6 +14,6 @@ body:
         - label: Block A — Primary (80m)
         - label: Block B — Sprinkle (35m)
         - label: Ship (5m) + Drill (10m)
-        - type: textarea
-id: notes
-attributes: { label: Notes / What broke / Fix }
+  - type: textarea
+    id: notes
+    attributes: { label: Notes / What broke / Fix }
