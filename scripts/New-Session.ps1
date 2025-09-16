@@ -4,7 +4,7 @@ param(
 )
 $Date = (Get-Date).ToString('yyyy-MM-dd')
 $Slug = "$Date-$($($Topic -replace '\s+','-').ToLower())"
-$Dir = Join-Path '../sessions' $Slug
+$Dir  = Join-Path '../sessions' $Slug
 
 New-Item -ItemType Directory -Path $Dir -Force | Out-Null
 @"
@@ -31,10 +31,12 @@ New-Item -ItemType Directory -Path $Dir -Force | Out-Null
 
 "@ | Set-Content -Path (Join-Path $Dir 'README.md')
 
-# if (-not (git rev-parse --is-inside-work-tree 2>$null)) { git init | Out-Null }
+# Initialize git repo if not already inside one
+if (-not (git rev-parse --is-inside-work-tree 2>$null)) { git init | Out-Null }
 
-# try { git checkout -b "session/$Slug" } catch { git checkout -b "session/$Slug" }
-# git add .
-# git commit -m "chore(session): start $Slug"
+# Create and switch to new branch
+try { git checkout -b "session/$Slug" } catch { git checkout -b "session/$Slug" }
+git add .
+git commit -m "chore(session): start $Slug"
 
 Write-Host "Session scaffolded at $Dir and branch session/$Slug created."
