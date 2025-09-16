@@ -4,7 +4,7 @@ param(
 )
 $Date = (Get-Date).ToString('yyyy-MM-dd')
 $Slug = "$Date-$($($Topic -replace '\s+','-').ToLower())"
-$Dir = Join-Path 'sessions' $Slug
+$Dir = Join-Path '../sessions' $Slug
 
 New-Item -ItemType Directory -Path $Dir -Force | Out-Null
 @"
