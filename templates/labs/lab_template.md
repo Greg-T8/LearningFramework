@@ -18,5 +18,6 @@ _Example: Deploy and validate Kubernetes RBAC roles and role bindings._
 ## Steps
 
 1. Step 1 … (include CLI/code snippets if relevant)  
+
    ```bash
    kubectl create role pod-reader --verb=get,list --resource=pods
