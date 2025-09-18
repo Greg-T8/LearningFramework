@@ -26,14 +26,14 @@ jobs:
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
           # Uses .github/sync.yml by default; you can override with 'config-path'
-          token: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GH_PAT }}
           # Optional: open PRs instead of direct push (recommended)
-          prTitle: "chore(sync): update shared LearningSessions templates"
-          prBody: |
-            Automated sync from LearningSessions:
-            - Commit: ${{ github.sha }}
-            - Actor:  ${{ github.actor }}
-          prLabel: "sync"
-          branch: "sync/from-learning-sessions"
-          # Set to true to require PRs; false to push directly
-          pull_request: true
+        #   prTitle: "chore(sync): update shared LearningSessions templates"
+        #   prBody: |
+        #     Automated sync from LearningSessions:
+        #     - Commit: ${{ github.sha }}
+        #     - Actor:  ${{ github.actor }}
+        #   prLabel: "sync"
+        #   branch: "sync/from-learning-sessions"
+        #   # Set to true to require PRs; false to push directly
+        #   pull_request: true
