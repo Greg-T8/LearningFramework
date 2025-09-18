@@ -1,0 +1,20 @@
+# Repos you want to receive files from LearningSessions
+# Use HTTPS form owner/repo; private repos require a PAT with repo scope.
+repos:
+  - Greg-T8/LearningTopic
+  # - org/AnotherRepo
+
+# What to copy (source -> destination in the target repos)
+# You can map whole folders or individual files, and exclude patterns.
+files:
+  - source: templates/common/          # in LearningSessions
+    dest:   .learning/shared/          # in each target repo
+    exclude:
+      - "**/*.tmp"
+      - "**/.DS_Store"
+  - source: .github/ISSUE_TEMPLATE/    # share issue templates
+    dest:   .github/ISSUE_TEMPLATE/
+  - source: .github/pull_request_template.md
+    dest:   .github/pull_request_template.md
+  - source: scripts/                   # share PowerShell helpers
+    dest:   scripts/

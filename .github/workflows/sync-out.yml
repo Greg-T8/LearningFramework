@@ -1,0 +1,39 @@
+name: Sync LearningSessions files to other repos
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'templates/**'
+      - 'scripts/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/pull_request_template.md'
+      - '.github/sync.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source (LearningSessions)
+        uses: actions/checkout@v4
+
+      - name: Sync files to targets
+        uses: BetaHuhn/repo-file-sync-action@v1
+        with:
+          # Uses .github/sync.yml by default; you can override with 'config-path'
+          token: ${{ secrets.GH_PAT }}
+          # Optional: open PRs instead of direct push (recommended)
+          prTitle: "chore(sync): update shared LearningSessions templates"
+          prBody: |
+            Automated sync from LearningSessions:
+            - Commit: ${{ github.sha }}
+            - Actor:  ${{ github.actor }}
+          prLabel: "sync"
+          branch: "sync/from-learning-sessions"
+          # Set to true to require PRs; false to push directly
+          pull_request: true
