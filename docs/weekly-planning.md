@@ -1,6 +1,7 @@
 # Weekly Planning
 
-This document describes how to plan learning sessions on Saturdays so that each week has a clear roadmap.  
+This document describes how to plan learning sessions on Saturdays so that each
+week has a clear roadmap.  
 It connects the **what (Issues)**, **how (Labs)**, and **when (PRs)** across days.
 
 ---
@@ -8,12 +9,14 @@ It connects the **what (Issues)**, **how (Labs)**, and **when (PRs)** across day
 ## 1. Saturday Planning
 
 - **Review Topic/Epic Issues**  
-  - These are the “what” — the topics you want to advance (e.g., *Kubernetes — RBAC*, *AZ-104 — VNets*).  
+  - These are the “what” — the topics you want to advance (e.g., *Kubernetes —
+    RBAC*, *AZ-104 — VNets*).  
   - Decide which topics will be in focus for the coming week.  
 
 - **Scaffold Labs**  
   - For each topic you plan to study, decide if it’s reusable.  
-  - If yes → run `New-Lab.ps1` to create a Markdown recipe under `/labs/` and a corresponding Lab Issue.  
+  - If yes → run `New-Lab.ps1` to create a Markdown recipe under `/labs/` and a
+    corresponding Lab Issue.  
   - If no (exploratory spike) → plan to capture it only in daily session PRs.  
 
 - **Map Sessions to Days**  
@@ -28,7 +31,8 @@ It connects the **what (Issues)**, **how (Labs)**, and **when (PRs)** across day
 
 For each 1-hour block:
 
-1. Run `New-Session.ps1` to scaffold a PR and a `/sessions/YYYY-MM-DD-topic/` directory.  
+1. Run `New-Session.ps1` to scaffold a PR and a `/sessions/YYYY-MM-DD-topic/`
+   directory.  
 2. Work through the assigned lab(s).  
 3. Capture notes, drills, and evidence directly in the PR template.  
 4. At the end of the hour:  
@@ -59,22 +63,24 @@ For each 1-hour block:
 ## 4. Example Week Plan
 
 **Topic Issues in play:**  
+
 - `#41 Kubernetes — RBAC`  
 - `#42 AZ-104 — VNets`
 
 **Labs scaffolded:**  
+
 - `labs/kubernetes/rbac-basics.md` (Lab Issue #101)  
 - `labs/azure/vnet-peering.md` (Lab Issue #102)
 
 **Planned sessions:**  
 
-| Day        | Session A (Cert)                        | Session B (System/Language)      |
-|------------|------------------------------------------|----------------------------------|
-| Monday     | AZ-104 — VNet Peering (Lab #102)         | Kubernetes RBAC (Lab #101)       |
-| Tuesday    | AZ-104 — VNet Peering (continue)         | Kubernetes RBAC (continue)       |
-| Wednesday  | AZ-104 — NSGs (new Lab)                  | Kubernetes — Ingress NGINX (new) |
-| Thursday   | AZ-104 — Recovery Services Vault (new)   | Kubernetes RBAC (push to L3/L4)  |
-| Friday     | AZ-104 — Review & Drills                 | Kubernetes — Storage Classes     |
+| Day       | Session A (Cert)                       | Session B (System/Language)      |
+| --------- | -------------------------------------- | -------------------------------- |
+| Monday    | AZ-104 — VNet Peering (Lab #102)       | Kubernetes RBAC (Lab #101)       |
+| Tuesday   | AZ-104 — VNet Peering (continue)       | Kubernetes RBAC (continue)       |
+| Wednesday | AZ-104 — NSGs (new Lab)                | Kubernetes — Ingress NGINX (new) |
+| Thursday  | AZ-104 — Recovery Services Vault (new) | Kubernetes RBAC (push to L3/L4)  |
+| Friday    | AZ-104 — Review & Drills               | Kubernetes — Storage Classes     |
 
 ---
 

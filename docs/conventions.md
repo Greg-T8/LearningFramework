@@ -1,6 +1,7 @@
 # Conventions
 
-These conventions define how I structure and run daily learning sessions, how I use Issues, Labs, and PRs, and how I apply the L1–L4 outcome ladder.
+These conventions define how I structure and run daily learning sessions, how I
+use Issues, Labs, and PRs, and how I apply the L1–L4 outcome ladder.
 
 ---
 
@@ -8,11 +9,13 @@ These conventions define how I structure and run daily learning sessions, how I 
 
 - **Issues = What**  
   - Topics I want to cover (e.g., “Kubernetes — RBAC”).  
-  - Can be **Topic/Epic Issues** (multi-week plan) or **Lab Issues** (specific exercises).  
+  - Can be **Topic/Epic Issues** (multi-week plan) or **Lab Issues** (specific
+    exercises).  
   - Long-lived, track planning andoverall progress.
 
 - **Markdown Labs = How**  
-  - Durable recipes under `/labs/` with goal, steps, expected outcome, and variations.  
+  - Durable recipes under `/labs/` with goal, steps, expected outcome, and
+    variations.  
   - Each Lab Issue links to its corresponding lab file.  
   - Reused across multiple sessions until mastery (L4).
 
@@ -69,9 +72,11 @@ At the end of each 1-hour session:
 
 1. Commit & push code, notes, evidence.  
 2. Update PR template:
- - Tick **Labs / Drills / Evidence**.  
- - Record **What Broke / How I Fixed It**.  
- - Add **Next Steps**.  
+
+    - Tick **Labs / Drills / Evidence**.  
+    - Record **What Broke / How I Fixed It**.  
+    - Add **Next Steps**.  
+
 3. Update outcome level (L1–L4) in PR title.  
 4. Merge the PR.
 
