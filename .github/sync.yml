@@ -17,7 +17,7 @@ group:
         dest: .github/pull_request_template_full.md
       - source: delete/issues
         dest: .github/issues
-        exclude: .gitkeep
+        # exclude: .gitkeep
         deleteOrphanned: true
     repos: |
       Greg-T8/LearningTopic
