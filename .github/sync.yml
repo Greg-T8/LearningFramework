@@ -18,7 +18,7 @@ group:
         deleteOrphaned: true
 
       - source: templates/pull_requests/
-        dest: .github/
+        dest: .github/PULL_REQUEST_TEMPLATE/
         deleteOrphaned: true
 
       - source: scripts/
