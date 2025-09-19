@@ -27,8 +27,7 @@ jobs:
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
           PR_LABELS: |
-            files-sync
-            merge
+            sync
 
           # Optional: open PRs instead of direct push (recommended)
         #   prTitle: "chore(sync): update shared LearningSessions templates"
