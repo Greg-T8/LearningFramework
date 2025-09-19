@@ -18,12 +18,9 @@ group:
 
       - source: templates/pull_requests/pull_request_template_full.md
         dest: .github/pull_request_template_full.md
+      - source: templates/pull_requests/pull_request_template_slim.md
+        dest: .github/pull_request_template_slim.md
 
-      - source: delete/issues/
-        dest: .github/issues/
-        deleteOrphaned: true
-        exclude: |
-          .gitkeep
     repos: |
       Greg-T8/LearningTopic
 

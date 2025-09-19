@@ -29,7 +29,6 @@ jobs:
           PR_LABELS: |
             sync
             automerge
-          SKIP_CLEANUP: true
 
           # Optional: open PRs instead of direct push (recommended)
         #   prTitle: "chore(sync): update shared LearningSessions templates"
