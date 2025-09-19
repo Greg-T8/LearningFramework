@@ -21,6 +21,10 @@ group:
       - source: templates/pull_requests/pull_request_template_slim.md
         dest: .github/pull_request_template_slim.md
 
+      - source: scripts/
+        dest: scripts/
+        deleteOrphaned: true
+
     repos: |
       Greg-T8/LearningTopic
 
