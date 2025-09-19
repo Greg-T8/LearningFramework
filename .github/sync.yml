@@ -1,5 +1,4 @@
 # Repos you want to receive files from LearningSessions
-# Use HTTPS form owner/repo; private repos require a PAT with repo scope.
 
 group:
   - files:
@@ -23,7 +22,8 @@ group:
       - source: delete/issues/
         dest: .github/issues/
         deleteOrphaned: true
-        exclude: "**/.gitkeep"
+        exclude: |
+          .gitkeep
     repos: |
       Greg-T8/LearningTopic
 
