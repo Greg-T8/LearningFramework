@@ -5,12 +5,12 @@ group:
       - source: .markdownlint.yml
         dest: .markdownlint.yml
 
-      - source: templates/issues/
-        dest: .github/ISSUE_TEMPLATE/
-        deleteOrphaned: true
-
       - source: templates/workflows/automerge.yml
         dest: .github/workflows/automerge.yml
+        deleteOrphaned: true
+
+      - source: templates/issues/
+        dest: .github/ISSUE_TEMPLATE/
         deleteOrphaned: true
 
       - source: templates/labs/
