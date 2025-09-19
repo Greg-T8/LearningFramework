@@ -6,7 +6,7 @@ group:
       - source: .markdownlint.yml
         dest: .markdownlint.yml
       - source: templates/issues/lab.yml
-        dest: .github/issues/lab.yml
+        dest: .github/ISSUE_TEMPLATE/lab.yml
       - source: templates/issues/topic.yml
         dest: .github/issues/topic.yml
       - source: templates/workflows/automerge.yml
