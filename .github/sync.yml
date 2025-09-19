@@ -3,6 +3,8 @@
 
 group:
   - files:
+      - source: templates/workflows/automerge.yml
+        dest: .github/workflows/automerge.yml
       - source: templates/issues/lab.yml
         dest: .github/issues/lab.yml
       - source: templates/issues/topic.yml
