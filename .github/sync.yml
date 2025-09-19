@@ -2,11 +2,15 @@
 # Use HTTPS form owner/repo; private repos require a PAT with repo scope.
 
 group:
-  repos: |
-    Greg-T8/LearningTopic
-  files:
-    - source: templates/issues/lab.yml
-      dest:   .github/issues/lab.yml
-    - source: .markdownlint.yml
-      dest:   .markdownlint.yml
-    
+  - files:
+      - source: templates/issues/lab.yml
+        dest: .github/issues/lab.yml
+      - source: .markdownlint.yml
+        dest: .markdownlint.yml
+    repos: |
+      Greg-T8/LearningTopic
+
+  # - files: # Example of another group
+  #     - source: templates/pull_request_template.md
+  #       dest: .github/pull_request_template.md
+  #   repos: |
