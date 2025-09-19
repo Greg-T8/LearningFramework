@@ -5,20 +5,25 @@ group:
   - files:
       - source: .markdownlint.yml
         dest: .markdownlint.yml
+
       - source: templates/issues/lab.yml
         dest: .github/ISSUE_TEMPLATE/lab.yml
       - source: templates/issues/topic.yml
         dest: .github/ISSUE_TEMPLATE/topic.yml
+
       - source: templates/workflows/automerge.yml
         dest: .github/workflows/automerge.yml
+
       - source: templates/labs/lab_template.md
         dest: templates/labs/lab_template.md
+
       - source: templates/pull_requests/pull_request_template_full.md
         dest: .github/pull_request_template_full.md
+
       - source: delete/issues/
         dest: .github/issues/
-        exclude: .gitkeep
         deleteOrphaned: true
+        exclude: "**/.gitkeep"
     repos: |
       Greg-T8/LearningTopic
 
