@@ -15,9 +15,9 @@ group:
         dest: templates/labs/lab_template.md
       - source: templates/pull_requests/pull_request_template_full.md
         dest: .github/pull_request_template_full.md
-      - source: delete/issues
-        dest: .github/issues
-        # exclude: .gitkeep
+      - source: delete/issues/
+        dest: .github/issues/
+        exclude: .gitkeep
         deleteOrphanned: true
     repos: |
       Greg-T8/LearningTopic
