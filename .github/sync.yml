@@ -5,8 +5,8 @@ group:
   - files:
       - source: templates/issues/lab.yml
         dest: .github/issues/lab.yml
-      - source: templates/issues/lab.yml
-        dest: .github/issues/lab.yml
+      - source: templates/issues/topic.yml
+        dest: .github/issues/topic.yml
       - source: .markdownlint.yml
         dest: .markdownlint.yml
     repos: |
