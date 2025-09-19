@@ -5,21 +5,21 @@ group:
       - source: .markdownlint.yml
         dest: .markdownlint.yml
 
-      - source: templates/issues/lab.yml
-        dest: .github/ISSUE_TEMPLATE/lab.yml
-      - source: templates/issues/topic.yml
-        dest: .github/ISSUE_TEMPLATE/topic.yml
+      - source: templates/issues/
+        dest: .github/ISSUE_TEMPLATE/
+        deleteOrphaned: true
 
       - source: templates/workflows/automerge.yml
         dest: .github/workflows/automerge.yml
+        deleteOrphaned: true
 
-      - source: templates/labs/lab_template.md
-        dest: templates/labs/lab_template.md
+      - source: templates/labs/
+        dest: templates/labs/
+        deleteOrphaned: true
 
-      - source: templates/pull_requests/pull_request_template_full.md
-        dest: .github/pull_request_template_full.md
-      - source: templates/pull_requests/pull_request_template_slim.md
-        dest: .github/pull_request_template_slim.md
+      - source: templates/pull_requests/
+        dest: .github/
+        deleteOrphaned: true
 
       - source: scripts/
         dest: scripts/
