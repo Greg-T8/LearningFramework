@@ -14,7 +14,7 @@ group:
         deleteOrphaned: true
 
       - source: templates/labs/
-        dest: session-kit/templates/
+        dest: kit/templates/
         deleteOrphaned: true
 
       - source: templates/pull_requests/
@@ -22,7 +22,7 @@ group:
         deleteOrphaned: true
 
       - source: tools/
-        dest: session-kit/tools/
+        dest: kit/tools/
         deleteOrphaned: true
 
     repos: |
