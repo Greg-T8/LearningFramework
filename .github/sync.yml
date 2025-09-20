@@ -13,7 +13,7 @@ group:
         dest: .github/ISSUE_TEMPLATE/
         deleteOrphaned: true
 
-      - source: templates/labs/
+      - source: templates/markdown/
         dest: kit/templates/
         deleteOrphaned: true
 
