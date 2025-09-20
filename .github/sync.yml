@@ -18,7 +18,7 @@ group:
         deleteOrphaned: true
 
       - source: templates/notes/
-        dest: kit/notes/
+        dest: kit/templates/
         deleteOrphaned: true
 
       - source: templates/pull_requests/
