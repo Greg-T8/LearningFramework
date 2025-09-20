@@ -1,4 +1,4 @@
-# LearningSessions Framework
+# Learning Framework
 
 This repo provides the **templates, scripts, and workflows** I use to run daily 1-hour learning sessions (two per day).  
 It standardizes how I plan, design labs, and journal my work across technology-specific repos.
