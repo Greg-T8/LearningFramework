@@ -17,10 +17,6 @@ group:
         dest: kit/templates/
         deleteOrphaned: true
 
-      - source: templates/notes/
-        dest: kit/templates/
-        deleteOrphaned: true
-
       - source: templates/pull_requests/
         dest: .github/PULL_REQUEST_TEMPLATE/
         deleteOrphaned: true
