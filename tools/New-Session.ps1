@@ -9,8 +9,7 @@ param(
 
     # Optional GitHub automation (OFF by default)
     [Boolean]$CreateIssue = $true,
-    [switch]$EnsurePR,                       # Ensure a PR exists and link the issue
-    [string[]]$Labels = @('type: session', 'no-exist'),
+    [string[]]$Labels = @('Type: Session', 'status: Planned', 'no-exist'),
 
     # UX
     [switch]$Open,                           # Open created items
@@ -24,13 +23,10 @@ $Main = {
     . $Helpers
     . $Config
 
-    Read-SessionTitle
-    Initialize-Context
+    Set-SessionTitle
+    Resolve-GitContext
     $issue = $null
     if ($CreateIssue) { $issue = New-SessionIssue -Title $IssueTitle -Labels $Labels -Repo $RepoName }
-
-    $pr = $null
-    if ($EnsurePR) { $pr = Ensure-PullRequest -Repo $Repo -Branch $CurrentBranch -SessionIssue $issue }
 
     New-SessionMarkdown -Path $SessionPath -Template $SessionTemplatePath -Context @{
         Title           = $Title
@@ -40,8 +36,6 @@ $Main = {
         Branch          = $CurrentBranch
         IssueNumber     = if ($issue) { $issue.number } else { '' }
         IssueUrl        = if ($issue) { $issue.url } else { '' }
-        PrNumber        = if ($pr) { $pr.number }    else { '' }
-        PrUrl           = if ($pr) { $pr.url }       else { '' }
     }
 
     if (-not $NoCommit) {
@@ -52,13 +46,11 @@ $Main = {
     if ($Open) {
         Start-Item (Resolve-RelativePath -From (Get-Location) -To $SessionPath)
         if ($issue) { Start-Item $issue.url }
-        if ($pr) { Start-Item $pr.url }
     }
 
     Write-Host '✔ Session created:'
     Write-Host "  • Session : $(Resolve-RelativePath -From (Get-Location) -To $SessionPath)"
     if ($issue) { Write-Host "  • Issue   : #$($issue.number) $($issue.url)" }
-    if ($pr) { Write-Host "  • PR      : #$($pr.number) $($pr.url)" }
 }
 
 $Config = {
@@ -84,12 +76,11 @@ $Config = {
     $script:SessionTemplatePath = Resolve-RepoPath -RepoRoot $RepoRoot -Path $SessionTemplate
 
     # Titles for optional GH bits
-    $script:IssueTitle = '[Session] {0} ({1} {2})' -f $Title, $DateStamp, $Clock
-    $script:PrTitle    = '[Sessions] {0}' -f $CurrentBranch
+    $script:IssueTitle = '{0} ({1} {2})' -f $Title, $DateStamp, $Clock
 }
 
 $Helpers = {
-    function Read-SessionTitle {
+    function Set-SessionTitle {
         if ([string]::IsNullOrWhiteSpace($Title)) {
             $Title = Read-Host -Prompt 'Enter session title'
             if ([string]::IsNullOrWhiteSpace($Title)) {
@@ -98,11 +89,11 @@ $Helpers = {
             # Recompute derived names that depend on $Title
             $script:SessionName = ('{0}-{1}-{2}.md' -f $DateStamp, $TimeStamp, (ConvertTo-Slug $Title))
             $script:SessionPath = Join-Path $SessionsDir $SessionName
-            $script:IssueTitle  = '[Session] {0} ({1} {2})' -f $Title, $DateStamp, $Clock
+            $script:IssueTitle  = '{0} ({1} {2})' -f $Title, $DateStamp, $Clock
         }
     }
 
-    function Initialize-Context {
+    function Resolve-GitContext {
         Confirm-Tool -Name 'git' -Check 'git --version'
         Push-Location $RepoRoot
         try { git rev-parse --is-inside-work-tree *> $null } catch { throw "Not a git repository: $RepoRoot" }
@@ -172,14 +163,15 @@ Short statement of what this session will accomplish.
 
 
     function New-SessionIssue {
+        [OutputType([PSCustomObject])]
         param(
             [Parameter(Mandatory)] [string]$Title,
             [Parameter(Mandatory)] [string[]]$Labels,
             [Parameter(Mandatory)] [string]$Repo
         )
 
-        # Reuse existing open issue with same title
-        $existing = gh issue list --repo $Repo --state open --search "in:title $Title" --json "number,title,url" | ConvertFrom-Json
+        # Reuse existing open issue with exact title
+        $existing = gh issue list --repo $Repo --state open --search "in:title `"$Title`"" --json 'number,title,url' | ConvertFrom-Json
         if ($existing -and $existing.Count -ge 1) { return $existing[0] }
 
         # Fetch repo label names
@@ -187,26 +179,27 @@ Short statement of what this session will accomplish.
         $repoLabelNames = @()
         if ($repoLabels) { $repoLabelNames = $repoLabels | ForEach-Object { $_.name } }
 
-        # Case-insensitive set of existing labels
-        $labelSet = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
-        foreach ($n in $repoLabelNames) { [void]$labelSet.Add(($n ?? '').Trim()) }
+        # Normalize repo labels (case-insensitive lookup)
+        $repoLabelNames = $repoLabelNames | ForEach-Object { $_.Trim() }
 
-        # Normalize requested labels (trim, dedupe, non-empty)
-        $requested = [System.Linq.Enumerable]::ToArray(
-            [System.Linq.Enumerable]::Distinct(
-                [System.Linq.Enumerable]::Where($Labels, [Func[string, bool]] { param($x) -not [string]::IsNullOrWhiteSpace($x) }),
-                [System.StringComparer]::OrdinalIgnoreCase
-            )
-        )
+        # Normalize requested labels (trim, drop empty, dedupe case-insensitive)
+        $requested = $Labels |
+            ForEach-Object { $_.Trim() } |
+            Sort-Object -Unique
 
-        $valid   = New-Object System.Collections.Generic.List[string]
-        $missing = New-Object System.Collections.Generic.List[string]
+        # Check which requested labels actually exist in the repo
+        $valid   = @()
+        $missing = @()
         foreach ($l in $requested) {
-            $t = $l.Trim()
-            if ($labelSet.Contains($t)) { [void]$valid.Add($t) } else { [void]$missing.Add($t) }
+            if ($repoLabelNames -contains $l) {
+                $valid += $l
+            }
+            else {
+                $missing += $l
+            }
         }
 
-        if ($missing.Count -gt 0) {
+        if ($missing) {
             Write-Warning ('The following labels do not exist in {0} and will be ignored: {1}' -f $Repo, ($missing -join ', '))
         }
 
@@ -224,24 +217,18 @@ Short statement of what this session will accomplish.
             '_Auto-created by New-Session.ps1_'
         ) -join "`n"
 
-        gh issue create --repo $Repo --title $Title --body $body @labelArgs | ConvertFrom-Json
-    }
+        $issueURL = gh issue create --repo $Repo --title $Title --body $body @labelArgs
 
-    function Ensure-PullRequest {
-        param(
-            [Parameter(Mandatory)] [string]$Repo,
-            [Parameter(Mandatory)] [string]$Branch,
-            [Parameter(Mandatory)] $SessionIssue
-        )
-        $pr = gh pr view --repo $Repo --json number, url, headRefName, baseRefName, state 2>$null | ConvertFrom-Json
-        if (-not $pr) {
-            $body = if ($SessionIssue) { "Tracking sessions for **$Branch**.`n`nLinked session issue: #$($SessionIssue.number)" } else { "Tracking sessions for **$Branch**." }
-            $pr   = gh pr create --repo $Repo --title $PrTitle --body $body --head $Branch --fill --json number, url | ConvertFrom-Json
+        # Get session issue and return as PSCustomObject
+        $issue = gh issue view $issueURL --json number,title,url | ConvertFrom-Json
+
+        if ($null -eq $issue) { throw 'Failed to create or retrieve the new issue.' }
+
+        return [PSCustomObject]@{
+            number = $issue[0].number
+            title  = $issue[0].title
+            url    = $issue[0].url
         }
-        elseif ($SessionIssue) {
-            gh pr edit --repo $Repo --add-issue $SessionIssue.number | Out-Null
-        }
-        return $pr
     }
 
     function Confirm-Tool {
