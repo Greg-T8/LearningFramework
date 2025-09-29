@@ -6,6 +6,7 @@ on:
     paths:
       - 'templates/**'
       - 'scripts/**'
+      - 'tools/**'
       - '.github/ISSUE_TEMPLATE/**'
       - '.github/pull_request_template.md'
       - '.github/sync.yml'
