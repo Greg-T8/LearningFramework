@@ -3,13 +3,13 @@ name: Sync LearningSessions files to other repos
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'templates/**'
-      - 'scripts/**'
-      - 'tools/**'
-      - '.github/ISSUE_TEMPLATE/**'
-      - '.github/pull_request_template.md'
-      - '.github/sync.yml'
+    # paths:
+    #   - 'templates/**'
+    #   - 'scripts/**'
+    #   - 'tools/**'
+    #   - '.github/ISSUE_TEMPLATE/**'
+    #   - '.github/pull_request_template.md'
+    #   - '.github/sync.yml'
   workflow_dispatch: {}
 
 permissions:
