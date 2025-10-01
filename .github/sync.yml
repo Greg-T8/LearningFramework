@@ -14,7 +14,7 @@ group:
         deleteOrphaned: true
 
       - source: templates/markdown/
-        dest: kit/templates/
+        dest: .lab/templates/
         deleteOrphaned: true
 
       - source: templates/pull_requests/
@@ -22,7 +22,7 @@ group:
         deleteOrphaned: true
 
       - source: tools/
-        dest: kit/tools/
+        dest: .lab/tools/
         deleteOrphaned: true
 
     repos: |
