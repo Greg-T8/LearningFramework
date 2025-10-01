@@ -6,7 +6,7 @@ param(
 
     # Project targeting: EITHER supply ProjectUrl OR (ProjectOwner + ProjectNumber)
     [string]$ProjectOwner,
-    [int]$ProjectNumber = 2,
+    [int]$ProjectNumber = 5,
 
     [string]$LabTemplatePath = '.lab/templates/lab_template.md',
     [string]$PrTemplateFile  = '.github/PULL_REQUEST_TEMPLATE/pull_request_template_full.md'
@@ -22,8 +22,8 @@ $Main = {
     $slug    = Slugify $LabName
     $context = New-LabContext -Repo $repo -Owner $owner -Slug $slug
 
-    # $issueNumber  = New-GitHubIssue -Repo $repo -LabName $LabName -LabFile $context.LabFile -ExistingIssueNumber $ExistingIssueNumber
-    # Add-GitHubIssueToProject -Repo $repo -IssueNumber $issueNumber -Owner $owner -ProjectNumber $ProjectNumber
+    $issueNumber  = New-GitHubIssue -Repo $repo -LabName $LabName -LabFile $context.LabFile -ExistingIssueNumber $ExistingIssueNumber
+    Add-GitHubIssueToProject -Repo $repo -IssueNumber $issueNumber -Owner $owner -ProjectNumber $ProjectNumber
 
     $day = Get-Date -Format 'yyyy-MM-dd'
     $initializeLabFilesSplat = @{
@@ -32,9 +32,18 @@ $Main = {
         LabDir       = $context.LabDir
         LabFile      = $context.LabFile
         Day          = $day
-        IssueNumber  = $issueNumber
+        IssueURL     = $issueURL
     }
     Initialize-LabFiles @initializeLabFilesSplat
+    $initializeLabFilesSplat = @{
+        TemplatePath = $LabTemplatePath
+        LabTitle     = $LabName
+        LabDir       = $context.LabDir
+        LabFile      = $context.LabFile
+        Day          = $day
+        IssueNumber  = $issueNumber
+    }
+    exit 0 # TEMP
     Create-LabBranchAndCommit -Branch $context.Branch -LabFile $context.LabFile -LabName $LabName -IssueNumber $issueNumber
     Open-LabPR -Repo $repo -PrTemplateFile $PrTemplateFile -PrTitle "[Lab] $LabName" -IssueNumber $issueNumber -LabFile $context.LabFile
 
@@ -85,12 +94,15 @@ $Helpers = {
 
         $repoRoot = Resolve-RepoRoot -Path '.'
 
+        $repoRoot = Resolve-RepoRoot -Path '.'
+
         # Compute next 2-digit index under "labs"
         $labsRoot = 'labs'
         $absLabsRoot = Join-Path -Path $repoRoot -ChildPath $labsRoot
         if (-not (Test-Path -Path $absLabsRoot -PathType Container)) {
             New-Item -ItemType Directory -Force -Path $absLabsRoot | Out-Null
         }
+        $absLabsRoot = Join-Path -Path $repoRoot -ChildPath $labsRoot
 
         $existingIndexes = Get-ChildItem -Path $absLabsRoot -Directory |
             ForEach-Object {
@@ -104,7 +116,7 @@ $Helpers = {
         $branch = "lab/$indexStr-$Slug"
 
         $labDir  = Join-Path -Path $labsRoot -ChildPath "$indexStr-$Slug"
-        $labFile = Join-Path -Path $labDir  -ChildPath "notes.md"
+        $labFile = Join-Path -Path $labDir  -ChildPath 'notes.md'
 
         [pscustomobject]@{
             Repo    = $Repo
@@ -180,8 +192,9 @@ Briefly describe the learning objective.
         New-Item -ItemType Directory -Force -Path "$repoRoot/$LabDir" | Out-Null
         (Get-Content $absTemplatePath) `
             -replace '# Lab:.*', "# Lab: $LabTitle" `
-            -replace '\*\*Date:\*\*.*', "**Date:** $Day  " `
-            -replace '\*\*Linked Issue/PR:\*\*.*', "**Linked Issue/PR:** #$IssueNumber  " `
+            -replace '\*\*Start Date:\*\*.*', "**Start Date:** $Day  " `
+            -replace '\*\*Completion Date:\*\*.*', "**Completion Date:**  " `
+            -replace '\*\*Linked GitHub Item:\*\*.*', "**Linked GitHub Item:** #$IssueNumber  " `
       | Set-Content "$repoRoot/$LabFile"
         Add-Content "$repoRoot/$LabFile" "`r`n`r`n## Sessions`r`n"
         Write-Host "Initialized lab file: $LabFile"
