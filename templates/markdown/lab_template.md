@@ -2,7 +2,7 @@
 
 **Start Date:** YYYY-MM-DD  
 **Completion Date:** YYYY-MM-DD
-**Completion Level:** L1 | L2 | L3 | L4  
+**Status:** L1 | L2 | L3 | L4  
 **Linked GitHub Item:** [Item](URL)
 
 ## Objective
